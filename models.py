@@ -1,8 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, func, Table
-from sqlalchemy.orm import relationship, mapped_column, Mapped, Session
-from config import Base, engine
+from sqlalchemy.orm import relationship, mapped_column, Mapped
+from config import Base
 from typing import List
-from fake_data import FakeInfo
 
 
 class User(Base):
@@ -65,21 +64,3 @@ class Tag(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(nullable=False)
     posts: Mapped[List["Post"]] = relationship(secondary=association_table_post_tags, back_populates='tags')
-
-
-# Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine)
-
-instance_FakeInfo = FakeInfo(4)
-
-with Session(engine) as session:
-    for user_data in instance_FakeInfo.list_random_user:
-        man = User(**user_data)
-        session.add(man)
-    session.commit()
-
-# Проверка того, что данные добавлены
-with Session(engine) as session:
-    users = session.query(User).all()
-    for user in users:
-        print(f"{user.login}, {user.email}, {user.password},{user.date_of_registration}")
