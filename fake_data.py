@@ -15,16 +15,22 @@ class FakeInfo:
             user = User(
                 login=self.fake.first_name(),
                 email=self.fake.email(),
-                password=self.fake.password(),
-                posts=[
-                    Post(
-                        title=self.fake.catch_phrase(),
-                        content=self.fake.text(max_nb_chars=50),
-                        comments=[Comment(text_of_comment=self.fake.paragraph())],
-                        tags=[Tag(name=f"#{self.fake.word()}")]
-                    )
-                ]
-            )
+                password=self.fake.password(), )
+
+            post = Post(
+                title=self.fake.catch_phrase(),
+                content=self.fake.text(max_nb_chars=50),
+                user=user)  # Привязка поста к пользователю
+
+            comment = Comment(
+                text_of_comment=self.fake.paragraph(),
+                user=user,
+                post=post)
+
+            tag = Tag(name=f"#{self.fake.word()}")
+
+            post.tags.append(tag)
+            user.posts.append(post)
             self.list_random_user.append(user)
 
 
