@@ -1,3 +1,5 @@
+# образец как устанавливать relationship м/у 2я классами и обращаться к базе
+
 from pathlib import Path
 from typing import List, Optional
 from sqlalchemy import ForeignKey, String

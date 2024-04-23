@@ -1,10 +1,8 @@
 # Блог про экзотических птиц
 
-from config import engine, Base, Session
-from models import User
-from post_description import Post
-from comment_description import Comment
-from tag_description import Tag
+from config import engine, Base
+from sqlalchemy.orm import Session
+from models import User, Post, Comment, Tag
 
 
 def main():

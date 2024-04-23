@@ -1,3 +1,4 @@
+# в этом модуле переопределяю методы str и repr
 class People:
     def __init__(self, name, age, city):
         self.name = name
@@ -11,7 +12,6 @@ class People:
     def __repr__(self):
         # воспроизводство экземпляра класса
         return f'People(name="{self.name}", age="{self.age}", city="{self.city}")'
-
 
 
 man = People('Tom', 35, 'Moscow')
