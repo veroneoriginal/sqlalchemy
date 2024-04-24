@@ -5,6 +5,7 @@ from config import Base
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy import String, DateTime, func
 from models import Post, Comment, Tag, User
+import random
 
 
 class FakeInfo:
@@ -12,17 +13,19 @@ class FakeInfo:
         self.fake = Faker('ru_RU')
         self.fake.seed_instance(4321)
         self.list_random_user = []
+        # print(dir(self.fake))
 
         for _ in range(count_users):
             user = User(
-                login=self.fake.first_name(),
-                email=self.fake.email(),
-                password=self.fake.password(), )
+                login=self.fake.unique.user_name(),
+                email=self.fake.unique.email(),
+                password=self.fake.unique.password(), )
 
-            post = Post(
-                title=self.fake.catch_phrase(),
-                content=self.fake.text(max_nb_chars=50),
-                user=user)  # Привязка поста к пользователю
+            for _ in range(random.randint(0, 20)):
+                post = Post(
+                    title=self.fake.catch_phrase(),
+                    content=self.fake.text(max_nb_chars=50),
+                    user=user)  # Привязка поста к пользователю
 
             comment = Comment(
                 text_of_comment=self.fake.paragraph(),
@@ -32,7 +35,11 @@ class FakeInfo:
             tag = Tag(name=f"#{self.fake.word()}")
 
             post.tags.append(tag)
+            post.comments.append(comment)
+
             user.posts.append(post)
+            user.comments.append(comment)
+
             self.list_random_user.append(user)
 
 

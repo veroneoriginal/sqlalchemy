@@ -4,15 +4,22 @@ from config import Base, engine
 from sqlalchemy.orm import Session
 
 
+def play_db(count_users):
+    Base.metadata.create_all(engine)
+
+    instance_FakeInfo = FakeInfo(count_users)
+
+    with Session(engine) as session:
+        for user in instance_FakeInfo.list_random_user:
+            session.add(user)
+        session.commit()
+
+    print('\nБаза наполнена.')
+
+
 # Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine)
+play_db(150)
 
-instance_FakeInfo = FakeInfo(4)
-
-with Session(engine) as session:
-    for user in instance_FakeInfo.list_random_user:
-        session.add(user)
-    session.commit()
 
 # # Проверка того, что данные добавлены
 # with Session(engine) as session:

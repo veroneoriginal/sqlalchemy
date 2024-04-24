@@ -3,17 +3,16 @@
 
 from sqlalchemy.orm import Session
 from config import engine
-from models import Post, Tag  # Импортируем модели Post и Tag из вашего модуля
+from models import Post, Tag  # Импортируем модели Post и Tag из модуля
 
 # Создаем подключение к базе данных
 session = Session(bind=engine)
 
 # Идентификатор пользователя и теги, по которым производится выборка
-user_id = 4
-tag_names = ['#отдел', '#легко']
+user_id = 19
+tag_names = ['#угол', '#спорт']
 
 # Запрос на выборку постов конкретного пользователя с двумя тегами
-
 posts = session.query(Post).\
         join(Post.tags).\
         filter(Post.user_id == user_id).\
@@ -40,12 +39,12 @@ posts = session.query(Post).\
 
 # Закрываем сессию
 session.close()
-
-print('\n')
-print(len(posts))
-print(type(posts))
-print(type(posts[0]))
-print('\n')
+#
+# print('\n')
+# print(len(posts))
+# print(type(posts))
+# print(type(posts[0]))
+# print('\n')
 
 # Выводим посты
 for post in posts:
